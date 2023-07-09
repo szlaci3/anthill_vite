@@ -5,15 +5,14 @@ import type {
 } from '@ant-design/pro-layout';
 import ProLayout from '@ant-design/pro-layout';
 import React, { useState, useMemo, useRef } from 'react';
-import { Link, history, useModel, useRequest } from 'umi';
+import { Link, history } from 'react-router-dom';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { Result, Button } from 'antd';
-import Authorized from '@/utils/Authorized';
-import RightContent from '@/components/RightContent';
+// import RightContent from '@/components/RightContent';
 import { getMatchMenu } from '@umijs/route-utils';
 import { stringify } from 'querystring';
 import { toArrayIfPossible } from '@/utils/utils';
-import ChargingNotice from '@/components/ChargingNotice';
+// import ChargingNotice from '@/components/ChargingNotice';
 
 const noMatch = (
   <Result
@@ -37,7 +36,7 @@ export type BasicLayoutProps = {
 
 
 const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
-  const { initialState } = useModel('@@initialState');
+  const initialState = {};
   const { currentUser, menu } = initialState;
   const [displayChargingNotice, setDisplayChargingNotice] = useState(false);
   
@@ -83,7 +82,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             icon: <div className={`iconfont icon-${item.iconClass}`}/>,
             children: item.children ? menuDataRender(item.children) : undefined,
           };
-          return Authorized.check(item.authority, localItem, null) as MenuDataItem;
+          return localItem as MenuDataItem;
+          // return Authorized.check(item.authority, localItem, null) as MenuDataItem;
         });
 
   if (!menuAvailable) {
@@ -102,13 +102,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
 
   return (
     <>
-      <ChargingNotice
+      {/* <ChargingNotice
         visible={displayChargingNotice}
         onCancel={() => setDisplayChargingNotice(false)}
-      />
+      /> */}
 
       <ProLayout
-        logo={require("@/img/blue.jpg")}
+        logo="./src/img/blue.jpg"
         {...props}
         title={false}
         collapsed={collapsed}
@@ -147,12 +147,13 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           }
         }}
         footerRender={false}
-        rightContentRender={() => <RightContent />}
+        rightContentRender={() => <div />}
         navTheme='light'
       >
-        <Authorized authority={authorized!.authority} noMatch={noMatch}>
-          {children}
-        </Authorized>
+        <div>
+          Oh hi
+          {/* {children} */}
+        </div>
       </ProLayout>
     </>
   );
